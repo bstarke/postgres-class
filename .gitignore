@@ -1,0 +1,42 @@
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+**/application-local.properties
+
+# IntelliJ
+.idea/
+*.ipr
+*.iml
+*.iws
+
+# JPA Buddy
+.jpb/
+
+# NetBeans
+nb-configuration.xml
+
+# Visual Studio Code
+.vscode
+.factorypath
+
+# OSX
+.DS_Store
+
+# Vim
+*.swp
+*.swo
+
+# patch
+*.orig
+*.rej
+
+# Gradle
+build
+.gradle/
+
+credentials.yml
+.env
+.envrc
+db-creds.yml

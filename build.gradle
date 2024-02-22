@@ -1,0 +1,69 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.1'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.hibernate.orm' version '6.2.20.Final'
+    id 'org.graalvm.buildtools.native' version '0.9.28'
+    id 'com.gorylenko.gradle-git-properties' version '2.4.1'
+}
+
+group = 'net.starkenberg.movies'
+version = '1.0.29'
+
+java {
+    sourceCompatibility = '21'
+}
+jar {
+    enabled = false
+}
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.flywaydb:flyway-core'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'com.h2database:h2'
+}
+
+springBoot {
+    buildInfo { }
+}
+gitProperties {
+    failOnNoGitDirectory = false
+    keys = ['git.commit.id', 'git.commit.time']
+}
+
+bootBuildImage {
+    builder = 'harbor.home.starkenberg.net/hub/paketobuildpacks/builder-jammy-base'
+    runImage = 'harbor.home.starkenberg.net/hub/paketobuildpacks/run-jammy-base'
+    imageName = "harbor.home.starkenberg.net/library/movie-api:local"
+}
+
+tasks.named("bootBuildImage") {
+    docker {
+        publishRegistry {
+            username = "admin"
+            password = "$System.env.HARBOR_PASSWORD"
+            url = "https://harbor.home.starkenberg.net/v2/"
+            email = "brad@starkenberg.net"
+        }
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
