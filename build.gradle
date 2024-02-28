@@ -48,8 +48,8 @@ gitProperties {
 }
 
 bootBuildImage {
-    builder = 'harbor.home.starkenberg.net/hub/paketobuildpacks/builder-jammy-base'
-    runImage = 'harbor.home.starkenberg.net/hub/paketobuildpacks/run-jammy-base'
+    builder = 'paketobuildpacks/builder-jammy-tiny'
+    runImage = 'paketobuildpacks/run-jammy-tiny'
     imageName = "harbor.home.starkenberg.net/library/movie-api:local"
 }
 
@@ -62,6 +62,11 @@ tasks.named("bootBuildImage") {
             email = "brad@starkenberg.net"
         }
     }
+    environment = [
+            "BP_JVM_VERSION" : "21",
+            "BP_JVM_JLINK_ENABLED" : "true",
+            "BP_JVM_JLINK_ARGS" : "--no-man-pages --no-header-files --strip-debug --compress=2 --add-modules java.base,java.logging,java.naming,java.desktop,jdk.unsupported"
+    ]
 }
 
 tasks.named('test') {

@@ -11,16 +11,16 @@ services:
     - movie-data:/var/lib/postgresql/data
     ports:
     - "5432:5432"
-  movies-api:
-    image: "harbor.home.starkenberg.net/library/movie-api:local"
-    restart: on-failure
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://pgdb:5432/${DB_NAME}
-      SPRING_DATASOURCE_USERNAME: ${DB_USER}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-    ports:
-    - "8080:8080"
-    depends_on:
-    - pgdb
+#  movies-api:
+#    image: "harbor.home.starkenberg.net/library/movie-api:local"
+#    restart: on-failure
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://pgdb:5432/${DB_NAME}
+#      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+#      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+#    ports:
+#    - "8080:8080"
+#    depends_on:
+#    - pgdb
 volumes:
   movie-data:
